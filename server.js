@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("Hello Jenish! 🚀 Your GitOps Node.js App is running on Kubernetes via ArgoCD,100.");
+  res.send("Hello Jenish! 🚀 Your GitOps Node.js App is running on Kubernetes via ArgoCD,updated.");
 });
 
 const PORT = process.env.PORT || 3000;
