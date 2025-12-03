@@ -17,8 +17,8 @@ jobs:
 
       - name: Build and Push Image
         run: |
-          IMAGE=ghcr.io/${{ github.actor,, }}/gitops-node-app:${{ github.sha }}
+          USER_LOWER=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE=ghcr.io/$USER_LOWER/gitops-node-app:${{ github.sha }}
           docker build -t $IMAGE .
           docker push $IMAGE
           echo "IMAGE_TAG=$IMAGE" >> $GITHUB_ENV
-
