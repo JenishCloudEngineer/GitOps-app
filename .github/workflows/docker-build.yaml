@@ -15,10 +15,22 @@ jobs:
       - name: Log in to GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Build and Push Image
+      - name: Build and Push Image (SHA + latest)
         run: |
           USER_LOWER=$(echo "${{ github.actor }}" | tr '[:upper:]' '[:lower:]')
-          IMAGE=ghcr.io/$USER_LOWER/gitops-node-app:${{ github.sha }}
-          docker build -t $IMAGE .
-          docker push $IMAGE
-          echo "IMAGE_TAG=$IMAGE" >> $GITHUB_ENV
+          SHA_IMAGE=ghcr.io/$USER_LOWER/gitops-node-app:${{ github.sha }}
+          LATEST_IMAGE=ghcr.io/$USER_LOWER/gitops-node-app:latest
+
+         
+          docker build -t $SHA_IMAGE .
+
+        
+          docker tag $SHA_IMAGE $LATEST_IMAGE
+
+         
+          docker push $SHA_IMAGE
+
+         
+          docker push $LATEST_IMAGE
+
+          echo "IMAGE_TAG=$SHA_IMAGE" >> $GITHUB_ENV
